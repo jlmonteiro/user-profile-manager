@@ -8,6 +8,7 @@ interface AppProps {
 }
 
 /** Root application component with routing. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const App = ({ embedded }: AppProps) => {
   return (
     <Routes>
