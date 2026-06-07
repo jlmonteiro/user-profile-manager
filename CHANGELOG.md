@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global exception handler with RFC 7807 `application/problem+json` responses
 - Cucumber BDD tests via `quarkiverse-cucumber` extension
 - DevServices integration with init script for schema pre-creation
+- Frontend scaffolding (React 19, Mantine 7, Vite, TanStack Query)
+- Parcel lifecycle hooks (`bootstrap`, `mount`, `unmount`) for launcher integration
+- Vite lib mode build producing `dist/assets/index.js`
+- GitHub Actions CI workflows (backend + frontend)
+- Helm chart for K3s deployment (backend + frontend)
+- Frontend Dockerfile (multi-stage, nginx, non-root)
+- Deploy scripts (`deploy-local.sh`, `sync-and-deploy.sh`)
 
 ## 0.1.0
 
