@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Auth filter extracting `X-Auth-Request-Email` header (returns 401 if missing)
+- Exception hierarchy (`UserManagerException` base, specific subtypes)
+- Global exception handler with RFC 7807 `application/problem+json` responses
+- Cucumber BDD tests via `quarkiverse-cucumber` extension
+- DevServices integration with init script for schema pre-creation
+
 ## 0.1.0
 
 ### Added

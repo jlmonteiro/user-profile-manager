@@ -28,6 +28,8 @@ dependencies {
     implementation(libs.uuid.creator)
 
     testImplementation(libs.quarkus.junit5)
+    testImplementation(libs.quarkus.cucumber)
+    testImplementation(libs.junit.platform.suite)
     testImplementation(libs.rest.assured)
     testImplementation(libs.testcontainers.postgresql)
     testImplementation(libs.testcontainers.junit.jupiter)

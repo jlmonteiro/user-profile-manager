@@ -8,10 +8,15 @@ quarkus:
 
   datasource:
     db-kind: postgresql
-    jdbc:
-      url: ${DB_URL:jdbc:postgresql://localhost:5432/homeapp}
-    username: ${DB_USERNAME:user_manager_svc}
-    password: ${DB_PASSWORD:}
+    devservices:
+      image-name: postgres:17-alpine
+
+  "%prod":
+    datasource:
+      jdbc:
+        url: ${DB_URL:jdbc:postgresql://localhost:5432/homeapp}
+      username: ${DB_USERNAME:user_manager_svc}
+      password: ${DB_PASSWORD:}
 
   hibernate-orm:
     database:
@@ -21,7 +26,6 @@ quarkus:
 
   liquibase:
     default-schema-name: user_manager
-    liquibase-schema: user_manager
     migrate-at-start: true
     change-log: db/changelog/db.changelog-master.yaml
 

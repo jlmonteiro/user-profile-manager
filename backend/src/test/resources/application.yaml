@@ -1,0 +1,13 @@
+quarkus:
+  datasource:
+    db-kind: postgresql
+    devservices:
+      enabled: true
+      image-name: postgres:17-alpine
+      init-script-path: init-db.sql
+  hibernate-orm:
+    database:
+      default-schema: user_manager
+  liquibase:
+    default-schema-name: user_manager
+    migrate-at-start: true
