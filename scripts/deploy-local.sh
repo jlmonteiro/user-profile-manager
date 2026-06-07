@@ -16,7 +16,7 @@ step()  { echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━�
 PROJECT_DIR="$HOME/user-profile-manager"
 NAMESPACE="user-manager"
 RELEASE_NAME="user-manager"
-BACKEND_IMAGE="ghcr.io/jlmonteiro/user-profile-manager"
+BACKEND_IMAGE="ghcr.io/jlmonteiro/user-profile-manager/backend"
 FRONTEND_IMAGE="ghcr.io/jlmonteiro/user-profile-manager/frontend"
 VERSION=$(grep "^appVersion:" "$PROJECT_DIR/helm-deployment/Chart.yaml" | tr -d '"' | awk '{print $2}')
 

@@ -30,8 +30,8 @@ quarkus:
     change-log: db/changelog/db.changelog-master.yaml
 
   container-image:
-    group: ghcr.io/jlmonteiro
-    name: user-profile-manager
+    group: ghcr.io/jlmonteiro/user-profile-manager
+    name: backend
     base-jvm-image: eclipse-temurin:21-jre-alpine
     labels:
       org.opencontainers.image.source: https://github.com/jlmonteiro/user-profile-manager

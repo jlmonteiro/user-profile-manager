@@ -3,7 +3,7 @@ backend:
   replicaCount: 1
 
   image:
-    repository: ghcr.io/jlmonteiro/user-profile-manager
+    repository: ghcr.io/jlmonteiro/user-profile-manager/backend
     tag: ""
     pullPolicy: IfNotPresent
 
