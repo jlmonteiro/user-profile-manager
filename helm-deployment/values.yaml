@@ -1,0 +1,79 @@
+## Backend configuration
+backend:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/jlmonteiro/user-profile-manager/backend
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 8080
+
+  resources:
+    limits:
+      memory: 384Mi
+    requests:
+      cpu: 250m
+      memory: 384Mi
+
+  config:
+    JAVA_OPTS: "-XX:MaxRAMPercentage=70.0"
+    SERVER_PORT: "8080"
+    DB_URL: jdbc:postgresql://postgresql:5432/homeapp
+    DB_USERNAME: user_manager_svc
+
+  probes:
+    liveness:
+      path: /user-manager/q/health/live
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 3
+    readiness:
+      path: /user-manager/q/health/ready
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 3
+    startup:
+      path: /user-manager/q/health
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 30
+
+## Frontend configuration
+frontend:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/jlmonteiro/user-profile-manager/frontend
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+  probes:
+    liveness:
+      path: /health
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 3
+    readiness:
+      path: /health
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 3
+
+## Shared secret for credentials
+secrets:
+  databasePassword: ""
