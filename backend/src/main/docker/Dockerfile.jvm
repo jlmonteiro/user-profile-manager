@@ -1,0 +1,20 @@
+FROM eclipse-temurin:21-jre-alpine
+
+ARG QUARKUS_HOME=/opt/quarkus
+WORKDIR ${QUARKUS_HOME}
+
+RUN addgroup -S quarkus && adduser -S quarkus -G quarkus
+RUN chown -R quarkus:quarkus ${QUARKUS_HOME}
+
+COPY --chown=quarkus:quarkus target/quarkus-app/lib/ ${QUARKUS_HOME}/lib/
+COPY --chown=quarkus:quarkus target/quarkus-app/*.jar ${QUARKUS_HOME}/
+COPY --chown=quarkus:quarkus target/quarkus-app/app/ ${QUARKUS_HOME}/app/
+COPY --chown=quarkus:quarkus target/quarkus-app/quarkus/ ${QUARKUS_HOME}/quarkus/
+
+USER quarkus
+EXPOSE 8080
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
+  CMD wget -qO- http://localhost:8080/user-manager/q/health || exit 1
+
+ENTRYPOINT ["java", "-jar", "quarkus-run.jar"]
