@@ -1,0 +1,34 @@
+[versions]
+quarkus = "3.17.8"
+uuid-creator = "6.0.0"
+node-gradle = "7.1.0"
+cucumber = "7.22.0"
+testcontainers = "1.20.6"
+rest-assured = "5.5.1"
+
+[libraries]
+quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
+quarkus-resteasy-reactive = { module = "io.quarkus:quarkus-rest" }
+quarkus-resteasy-reactive-jackson = { module = "io.quarkus:quarkus-rest-jackson" }
+quarkus-hibernate-orm-panache = { module = "io.quarkus:quarkus-hibernate-orm-panache" }
+quarkus-jdbc-postgresql = { module = "io.quarkus:quarkus-jdbc-postgresql" }
+quarkus-liquibase = { module = "io.quarkus:quarkus-liquibase" }
+quarkus-smallrye-health = { module = "io.quarkus:quarkus-smallrye-health" }
+quarkus-container-image-docker = { module = "io.quarkus:quarkus-container-image-docker" }
+quarkus-config-yaml = { module = "io.quarkus:quarkus-config-yaml" }
+quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
+quarkus-rest-client-reactive-jackson = { module = "io.quarkus:quarkus-rest-client-jackson" }
+
+uuid-creator = { module = "com.github.f4b6a3:uuid-creator", version.ref = "uuid-creator" }
+
+# Testing
+quarkus-junit5 = { module = "io.quarkus:quarkus-junit5" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+cucumber-java = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
+cucumber-junit-platform-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
+node-gradle = { id = "com.github.node-gradle.node", version.ref = "node-gradle" }

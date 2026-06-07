@@ -1,0 +1,400 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-schema
+      author: jlmonteiro
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS user_manager
+
+  - changeSet:
+      id: 001-create-users
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: photo
+                  type: text
+              - column:
+                  name: phone
+                  type: varchar(30)
+              - column:
+                  name: instagram
+                  type: varchar(100)
+              - column:
+                  name: facebook
+                  type: varchar(255)
+              - column:
+                  name: linkedin
+                  type: varchar(255)
+              - column:
+                  name: whatsapp
+                  type: varchar(30)
+              - column:
+                  name: telegram
+                  type: varchar(100)
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - createIndex:
+            schemaName: user_manager
+            indexName: uq_users_email
+            tableName: users
+            unique: true
+            columns:
+              - column:
+                  name: email
+
+  - changeSet:
+      id: 001-create-roles
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: is_system
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-create-role-actions
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: role_actions
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: action
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: role_actions
+            baseColumnNames: role_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_role_actions_role
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            schemaName: user_manager
+            tableName: role_actions
+            columnNames: role_id, action
+            constraintName: uq_role_actions_role_action
+        - createIndex:
+            schemaName: user_manager
+            indexName: idx_role_actions_role_id
+            tableName: role_actions
+            columns:
+              - column:
+                  name: role_id
+
+  - changeSet:
+      id: 001-create-groups
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: groups
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-create-user-roles
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: user_roles
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: user_roles
+            baseColumnNames: user_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_roles_user
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: user_roles
+            baseColumnNames: role_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_user_roles_role
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            schemaName: user_manager
+            tableName: user_roles
+            columnNames: user_id, role_id
+            constraintName: uq_user_roles_user_role
+        - createIndex:
+            schemaName: user_manager
+            indexName: idx_user_roles_user_id
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+
+  - changeSet:
+      id: 001-create-user-groups
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: user_groups
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: user_groups
+            baseColumnNames: user_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_groups_user
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: user_groups
+            baseColumnNames: group_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: groups
+            referencedColumnNames: id
+            constraintName: fk_user_groups_group
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            schemaName: user_manager
+            tableName: user_groups
+            columnNames: user_id, group_id
+            constraintName: uq_user_groups_user_group
+        - createIndex:
+            schemaName: user_manager
+            indexName: idx_user_groups_user_id
+            tableName: user_groups
+            columns:
+              - column:
+                  name: user_id
+
+  - changeSet:
+      id: 001-create-group-roles
+      author: jlmonteiro
+      changes:
+        - createTable:
+            schemaName: user_manager
+            tableName: group_roles
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: group_roles
+            baseColumnNames: group_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: groups
+            referencedColumnNames: id
+            constraintName: fk_group_roles_group
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableSchemaName: user_manager
+            baseTableName: group_roles
+            baseColumnNames: role_id
+            referencedTableSchemaName: user_manager
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_group_roles_role
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            schemaName: user_manager
+            tableName: group_roles
+            columnNames: group_id, role_id
+            constraintName: uq_group_roles_group_role
+        - createIndex:
+            schemaName: user_manager
+            indexName: idx_group_roles_group_id
+            tableName: group_roles
+            columns:
+              - column:
+                  name: group_id
+
+  - changeSet:
+      id: 001-seed-admin-role
+      author: jlmonteiro
+      changes:
+        - insert:
+            schemaName: user_manager
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: "01936000-0000-7000-0000-000000000001"
+              - column:
+                  name: name
+                  value: admin
+              - column:
+                  name: is_system
+                  valueBoolean: true
